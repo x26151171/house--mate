@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Housemate | Share bills fairly</title>
+<style>
+:root {
+  --green: #176b50;
+  --light: #eaf4ee;
+  --dark: #172b24;
+  --muted: #68766e;
+  --border: #e2e9e4;
+  --white: #ffffff;
+  --orange: #f4a340;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f9f7;
+  color: var(--dark);
+}
+header {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 17px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo { font-size: 23px; font-weight: 800; color: var(--green); }
+.logo span { color: var(--orange); }
+header small { color: var(--muted); }
+main { max-width: 1050px; margin: auto; padding: 38px 20px; }
+.hero { margin-bottom: 28px; }
+.tag {
+  display: inline-block;
+  background: var(--light);
+  color: var(--green);
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+h1 { font-size: clamp(30px, 5vw, 46px); margin: 16px 0 10px; line-height: 1.12; }
+.hero p { color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 580px; }
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px #172b2408;
+}
+.balance {
+  background: var(--green);
+  color: white;
+  border-radius: 16px;
+  padding: 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.balance small { opacity: .85; }
+.balance h2 { font-size: 36px; margin: 9px 0; }
+.balance p { margin: 0; opacity: .85; font-size: 14px; }
+.pill {
+  background: #ffffff24;
+  padding: 9px 13px;
+  border-radius: 30px;
+  font-size: 12px;
+}
+h2.section { font-size: 21px; margin-top: 0; }
+.people {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+  gap: 12px;
+}
+.person {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px;
+}
+.avatar {
+  width: 38px; height: 38px;
+  background: var(--light);
+  color: var(--green);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.person strong { display: block; }
+.person small { color: var(--muted); }
+.amount { color: var(--green); font-weight: bold; margin-top: 9px; }
+.bill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+.bill:last-child { border: 0; }
+.bill small { display: block; color: var(--muted); margin-top: 5px; }
+.bill strong { font-size: 15px; }
+.bill-right { text-align: right; }
+form { display: grid; gap: 12px; }
+label { font-size: 14px; font-weight: bold; }
+input, select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccd8cf;
+  border-radius: 9px;
+  font-size: 16px;
+  background: white;
+}
+button {
+  background: var(--green);
+  color: white;
+  border: 0;
+  padding: 15px 19px;
+  border-radius: 9px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+button:hover { background: #10533d; }
+.secondary { background: var(--light); color: var(--green); }
+.secondary:hover { background: #d8eade; }
+.split-result {
+  margin-top: 15px;
+  background: var(--light);
+  padding: 14px;
+  border-radius: 10px;
+  color: var(--green);
+  line-height: 1.6;
+  display: none;
+}
+.cta {
+  text-align: center;
+  background: #edf4ef;
+  padding: 28px 20px;
+  border-radius: 16px;
+}
+.cta h2 { margin-top: 0; }
+.cta p { color: var(--muted); line-height: 1.5; }
+footer {
+  max-width: 1050px;
+  margin: auto;
+  padding: 15px 20px 35px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+footer strong { color: var(--dark); }
+.notice { font-size: 13px; color: var(--muted); }
+#signupMessage { color: var(--green); font-weight: bold; margin-top: 12px; }
+@media(max-width:600px) {
+  main { padding: 25px 14px; }
+  .card { padding: 17px; }
+  .balance h2 { font-size: 31px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">housemate<span>.</span></div>
+  <small>Rathmines, Dublin 6</small>
+</header>
+
+<main>
+  <section class="hero">
+    <span class="tag">MADE FOR SHARED HOMES</span>
+    <h1>House bills without the awkward chasing.</h1>
+    <p>
+      Five housemates. One shared list. See what you owe,
+      who paid, and what is left to share. No more chasing
+      people on WhatsApp.
+    </p>
+  </section>
+
+  <section class="balance">
+    <div>
+      <small>SAM'S TOTAL TO PAY</small>
+      <h2 id="samBalance">€42.00</h2>
+      <p>Your share of the house bills</p>
+    </div>
+    <div class="pill">● House account</div>
+  </section>
+
+  <section class="card">
+    <h2 class="section">Who owes what?</h2>
+    <p class="notice">Example house · Five housemates</p>
+    <div class="people" id="people"></div>
+  </section>
+
+  <section class="card">
+    <h2 class="section">House bills</h2>
+    <div id="billList"></div>
+  </section>
+
+  <section class="card">
+    <h2 class="section">Add a new bill</h2>
+    <p class="notice">Enter a bill and split it equally between five people.</p>
+    <form id="billForm">
+      <div>
+        <label for="billName">What is the bill?</label>
+        <select id="billName" required>
+          <option value="Electricity">Electricity</option>
+          <option value="Gas">Gas</option>
+          <option value="Broadband">Broadband</option>
+          <option value="Water">Water</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="billAmount">Total amount (€)</label>
+        <input id="billAmount" type="number" min="0.01"
+          step="0.01" placeholder="e.g. 100.00" required>
+      </div>
+      <div>
+        <label for="payer">Who paid the bill?</label>
+        <select id="payer">
+          <option>Sam</option>
+          <option>Alex</option>
+          <option>Maria</option>
+          <option>Li</option>
+          <option>Ahmed</option>
+        </select>
+      </div>
+      <button type="submit">Add bill and split it</button>
+    </form>
+    <div class="split-result" id="result"></div>
+  </section>
+
+  <section class="cta">
+    <h2>Make sharing bills easier.</h2>
+    <p>Get your house organised. No awkward messages. Just clear numbers.</p>
+    <button id="signupButton">Join the house</button>
+    <div id="signupMessage" aria-live="polite"></div>
+  </section>
+</main>
+
+<footer>
+  <strong>Our promise</strong><br>
+  We have not claimed approval by NCI because we do not have
+  that approval. We have not claimed bank-grade security because
+  this prototype has not been independently tested or certified.
+  <br><br>
+  This is a demonstration using fictional people and figures.
+  No real payments are collected.
+</footer>
+
+<script>
+const housemates = ["Sam", "Alex", "Maria", "Li", "Ahmed"];
+
+let bills = [
+  {name:"Electricity", amount:100, payer:"Alex"},
+  {name:"Gas", amount:60, payer:"Sam"},
+  {name:"Broadband", amount:50, payer:"Maria"}
+];
+
+function money(value) {
+  return "€" + value.toFixed(2);
+}
+
+function calculate() {
+  let balances = {};
+  housemates.forEach(person => balances[person] = 0);
+
+  bills.forEach(bill => {
+    let share = bill.amount / housemates.length;
+    housemates.forEach(person => {
+      if (person !== bill.payer) {
+        balances[person] += share;
+      }
+      balances[bill.payer] -= share;
+    });
+  });
+
+  return balances;
+}
+
+function render() {
+  const balances = calculate();
+  const people = document.getElementById("people");
+
+  people.innerHTML = housemates.map(person => {
+    const balance = balances[person];
+    let description = balance > 0.005
+      ? "Needs to pay"
+      : balance < -0.005
+      ? "To receive"
+      : "All settled";
+
+    return `
+      <div class="person">
+        <div class="avatar">${person[0]}</div>
+        <strong>${person}</strong>
+        <small>${description}</small>
+        <div class="amount">
+          ${money(Math.abs(balance))}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  document.getElementById("samBalance").textContent =
+    money(Math.max(0, balances.Sam));
+
+  document.getElementById("billList").innerHTML =
+    bills.map(bill => `
+      <div class="bill">
+        <div>
+          <strong>${bill.name}</strong>
+          <small>Paid by ${bill.payer} · Split 5 ways</small>
+        </div>
+        <div class="bill-right">
+          <strong>${money(bill.amount)}</strong>
+          <small>${money(bill.amount / 5)} each</small>
+        </div>
+      </div>
+    `).join("");
+}
+
+document.getElementById("billForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("billName").value;
+  const amount = Number(document.getElementById("billAmount").value);
+  const payer = document.getElementById("payer").value;
+
+  if (!Number.isFinite(amount) || amount <= 0) return;
+
+  bills.push({name, amount, payer});
+
+  render();
+
+  const share = amount / 5;
+  const result = document.getElementById("result");
+  result.style.display = "block";
+  result.innerHTML =
+    `<strong>Bill added!</strong><br>
+    Total bill: ${money(amount)}<br>
+    Each person's share: ${money(share)}<br>
+    Paid by: ${payer}<br>
+    The house balances have been updated.`;
+
+  document.getElementById("billAmount").value = "";
+});
+
+document.getElementById("signupButton").addEventListener("click", function() {
+  document.getElementById("signupMessage").textContent =
+    "You're on the list! Thanks for trying Housemate.";
+  this.textContent = "Signed up ✓";
+  this.disabled = true;
+});
+
+render();
+</script>
+</body>
+</html>
